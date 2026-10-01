@@ -15,10 +15,17 @@ beforeAll(async () => {
   const regRes = await request(app).post("/api/auth").send(diner);
   dinerToken = regRes.body.token;
 
-  const menuRes = await request(app).get("/api/order/menu");
-  if (menuRes.body.length > 0) {
-    menuItemId = menuRes.body[0].id;
+  let menuRes = await request(app).get("/api/order/menu");
+  if (menuRes.body.length === 0) {
+    await DB.addMenuItem({
+      title: "Student",
+      description: "No topping, no sauce, just crust",
+      image: "pizza9.png",
+      price: 0.0001,
+    });
+    menuRes = await request(app).get("/api/order/menu");
   }
+  menuItemId = menuRes.body[0].id;
 });
 
 afterAll(() => {
