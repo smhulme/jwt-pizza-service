@@ -29,8 +29,8 @@ class DB {
     }
   }
 
-  async addUser(user) {
-    const connection = await this.getConnection();
+  async addUser(user, existingConnection) {
+    const connection = existingConnection || (await this.getConnection());
     try {
       const hashedPassword = await bcrypt.hash(user.password, 10);
 
@@ -51,7 +51,9 @@ class DB {
       }
       return { ...user, id: userId, password: undefined };
     } finally {
-      connection.end();
+      if (!existingConnection) {
+        connection.end();
+      }
     }
   }
 
@@ -347,7 +349,7 @@ class DB {
         const [adminRows] = await connection.execute(`SELECT 1 FROM user WHERE email = 'a@jwt.com'`);
         if (adminRows.length === 0) {
           const defaultAdmin = { name: '常用名字', email: 'a@jwt.com', password: 'admin', roles: [{ role: Role.Admin }] };
-          await this.addUser(defaultAdmin);
+          await this.addUser(defaultAdmin, connection);
         }
       } finally {
         connection.end();
@@ -360,6 +362,10 @@ class DB {
   async checkDatabaseExists(connection) {
     const [rows] = await connection.execute(`SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?`, [config.db.connection.database]);
     return rows.length > 0;
+  }
+
+  async close() {
+    await this.initialized;
   }
 }
 

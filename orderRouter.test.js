@@ -7,6 +7,14 @@ let menuItemId;
 const originalFetch = global.fetch;
 
 beforeAll(async () => {
+  global.fetch = jest.fn().mockResolvedValue({
+    ok: true,
+    json: async () => ({
+      reportUrl: "http://factory.test/report/default",
+      jwt: "mocked-default-jwt",
+    }),
+  });
+
   const diner = {
     name: "diner tester",
     email: Math.random().toString(36).substring(2, 12) + "@test.com",
@@ -28,8 +36,11 @@ beforeAll(async () => {
   menuItemId = menuRes.body[0].id;
 }, 30000);
 
-afterAll(() => {
+afterAll(async () => {
   global.fetch = originalFetch;
+  if (DB.close) {
+    await DB.close();
+  }
 });
 
 test("get pizza menu", async () => {
