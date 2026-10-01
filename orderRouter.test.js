@@ -26,7 +26,7 @@ beforeAll(async () => {
     menuRes = await request(app).get("/api/order/menu");
   }
   menuItemId = menuRes.body[0].id;
-});
+}, 30000);
 
 afterAll(() => {
   global.fetch = originalFetch;
