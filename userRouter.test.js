@@ -105,3 +105,10 @@ test("list users unauthorized without token", async () => {
   const res = await request(app).get("/api/user");
   expect(res.status).toBe(401);
 });
+
+test("list users", async () => {
+  const listUsersRes = await request(app)
+    .get("/api/user")
+    .set("Authorization", `Bearer ${userToken}`);
+  expect(listUsersRes.status).toBe(200);
+});
