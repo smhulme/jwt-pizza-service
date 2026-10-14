@@ -63,6 +63,21 @@ userRouter.get(
   }),
 );
 
+// deleteUser
+userRouter.delete(
+  "/:userId",
+  authRouter.authenticateToken,
+  asyncHandler(async (req, res) => {
+    if (!req.user.isRole(Role.Admin)) {
+      return res.status(403).json({ message: "unauthorized" });
+    }
+
+    const userId = Number(req.params.userId);
+    await DB.deleteUser(userId);
+    res.json({ message: "user deleted" });
+  }),
+);
+
 // listUsers
 userRouter.get(
   "/",

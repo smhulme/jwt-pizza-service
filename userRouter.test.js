@@ -78,12 +78,41 @@ test("admin can update another user", async () => {
   expect(res.body.user.name).toBe("Admin Renamed User");
 });
 
-test("delete user not implemented", async () => {
+test("delete user as admin", async () => {
+  // 1. Create a throwaway user to delete
+  const tempUser = {
+    name: "to be deleted",
+    email: Math.random().toString(36).substring(2, 12) + "@test.com",
+    password: "pass",
+  };
+  const regRes = await request(app).post("/api/auth").send(tempUser);
+  const tempUserId = regRes.body.user.id;
+
+  // 2. Get admin token
+  const adminRes = await request(app)
+    .put("/api/auth")
+    .send({ email: "a@jwt.com", password: "admin" });
+  const adminToken = adminRes.body.token;
+
+  // 3. Delete the user
+  const deleteRes = await request(app)
+    .delete(`/api/user/${tempUserId}`)
+    .set("Authorization", `Bearer ${adminToken}`);
+  expect(deleteRes.status).toBe(200);
+  expect(deleteRes.body.message).toBe("user deleted");
+
+  // 4. Verify user no longer exists
+  const loginRes = await request(app)
+    .put("/api/auth")
+    .send({ email: tempUser.email, password: tempUser.password });
+  expect(loginRes.status).toBe(404);
+});
+
+test("delete user forbidden for regular diner", async () => {
   const res = await request(app)
     .delete(`/api/user/${user.id}`)
     .set("Authorization", `Bearer ${userToken}`);
-  expect(res.status).toBe(200);
-  expect(res.body.message).toBe("not implemented");
+  expect(res.status).toBe(403);
 });
 
 test("delete user unauthorized without token", async () => {
