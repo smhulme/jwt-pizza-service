@@ -91,26 +91,16 @@ test("delete user unauthorized without token", async () => {
   expect(res.status).toBe(401);
 });
 
-test("list users not implemented", async () => {
-  const res = await request(app)
-    .get("/api/user")
-    .set("Authorization", `Bearer ${userToken}`);
-  expect(res.status).toBe(200);
-  expect(res.body.message).toBe("not implemented");
-  expect(res.body.users).toEqual([]);
-  expect(res.body.more).toBe(false);
-});
-
 test("list users unauthorized without token", async () => {
   const res = await request(app).get("/api/user");
   expect(res.status).toBe(401);
 });
 
-test("list users", async () => {
-  const listUsersRes = await request(app)
+test("list users forbidden for regular diner", async () => {
+  const res = await request(app)
     .get("/api/user")
     .set("Authorization", `Bearer ${userToken}`);
-  expect(listUsersRes.status).toBe(200);
+  expect(res.status).toBe(403);
 });
 
 test("list users returns users list with roles", async () => {
@@ -131,4 +121,41 @@ test("list users returns users list with roles", async () => {
   expect(res.body.users[0]).toHaveProperty("email");
   expect(res.body.users[0]).toHaveProperty("roles");
   expect(res.body.more).toBeDefined();
+});
+
+test("list users filters by name", async () => {
+  const adminRes = await request(app)
+    .put("/api/auth")
+    .send({ email: "a@jwt.com", password: "admin" });
+  const adminToken = adminRes.body.token;
+
+  const res = await request(app)
+    .get("/api/user?name=常用*")
+    .set("Authorization", `Bearer ${adminToken}`);
+
+  expect(res.status).toBe(200);
+  expect(res.body.users.length).toBeGreaterThan(0);
+  expect(res.body.users.every((u) => u.name.includes("常用"))).toBe(true);
+});
+
+test("list users paginates with limit and more", async () => {
+  const adminRes = await request(app)
+    .put("/api/auth")
+    .send({ email: "a@jwt.com", password: "admin" });
+  const adminToken = adminRes.body.token;
+
+  const res = await request(app)
+    .get("/api/user?page=0&limit=1")
+    .set("Authorization", `Bearer ${adminToken}`);
+
+  expect(res.status).toBe(200);
+  expect(res.body.users.length).toBe(1);
+  expect(res.body.more).toBe(true);
+});
+
+test("regular diner cannot list users", async () => {
+  const res = await request(app)
+    .get("/api/user")
+    .set("Authorization", `Bearer ${userToken}`);
+  expect(res.status).toBe(403);
 });
