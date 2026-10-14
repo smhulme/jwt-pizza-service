@@ -112,3 +112,23 @@ test("list users", async () => {
     .set("Authorization", `Bearer ${userToken}`);
   expect(listUsersRes.status).toBe(200);
 });
+
+test("list users returns users list with roles", async () => {
+  const adminRes = await request(app)
+    .put("/api/auth")
+    .send({ email: "a@jwt.com", password: "admin" });
+  const adminToken = adminRes.body.token;
+
+  const res = await request(app)
+    .get("/api/user?page=0&limit=10&name=*")
+    .set("Authorization", `Bearer ${adminToken}`);
+
+  expect(res.status).toBe(200);
+  expect(Array.isArray(res.body.users)).toBe(true);
+  expect(res.body.users.length).toBeGreaterThan(0);
+  expect(res.body.users[0]).toHaveProperty("id");
+  expect(res.body.users[0]).toHaveProperty("name");
+  expect(res.body.users[0]).toHaveProperty("email");
+  expect(res.body.users[0]).toHaveProperty("roles");
+  expect(res.body.more).toBeDefined();
+});
