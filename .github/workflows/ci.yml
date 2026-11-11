@@ -126,6 +126,6 @@ jobs:
 
       - name: Deploy new container
         run: |
-          aws ecs update-service --cluster jwt-pizza-service --service jwt-pizza-service-service-kc8wy5dx --force-new-deployment
+          aws ecs update-service --cluster jwt-pizza-service --service jwt-pizza-service --force-new-deployment
 
 
