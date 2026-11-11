@@ -22,22 +22,12 @@
   "liveNow": false,
   "panels": [
     {
-      "id": 1,
-      "title": "Active Diners Online",
-      "type": "stat",
-      "gridPos": {
-        "h": 5,
-        "w": 4,
-        "x": 0,
-        "y": 0
-      },
       "datasource": {
         "type": "prometheus",
         "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "none",
           "color": {
             "mode": "thresholds"
           },
@@ -53,21 +43,29 @@
                 "value": 1
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": []
       },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
       "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "orientation": "auto",
         "reduceOptions": {
-          "values": false,
           "calcs": [
             "lastNotNull"
-          ]
+          ],
+          "values": false
         },
-        "orientation": "auto",
-        "textMode": "value_and_name",
-        "colorMode": "background",
-        "graphMode": "area"
+        "textMode": "value_and_name"
       },
       "targets": [
         {
@@ -77,29 +75,22 @@
           },
           "editorMode": "code",
           "expr": "active_users_ratio",
+          "instant": false,
           "legendFormat": "Active Diners",
           "range": true,
           "refId": "A"
         }
-      ]
+      ],
+      "title": "Active Diners Online",
+      "type": "stat"
     },
     {
-      "id": 2,
-      "title": "Pizzas Sold",
-      "type": "stat",
-      "gridPos": {
-        "h": 5,
-        "w": 4,
-        "x": 4,
-        "y": 0
-      },
       "datasource": {
         "type": "prometheus",
         "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "none",
           "color": {
             "fixedColor": "orange",
             "mode": "fixed"
@@ -112,21 +103,29 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": []
       },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 2,
       "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "orientation": "auto",
         "reduceOptions": {
-          "values": false,
           "calcs": [
             "lastNotNull"
-          ]
+          ],
+          "values": false
         },
-        "orientation": "auto",
-        "textMode": "value_and_name",
-        "colorMode": "background",
-        "graphMode": "area"
+        "textMode": "value_and_name"
       },
       "targets": [
         {
@@ -136,29 +135,22 @@
           },
           "editorMode": "code",
           "expr": "pizzas_sold_total",
+          "instant": false,
           "legendFormat": "Total Pizzas",
           "range": true,
           "refId": "A"
         }
-      ]
+      ],
+      "title": "Pizzas Sold",
+      "type": "stat"
     },
     {
-      "id": 3,
-      "title": "Total Revenue",
-      "type": "stat",
-      "gridPos": {
-        "h": 5,
-        "w": 4,
-        "x": 8,
-        "y": 0
-      },
       "datasource": {
         "type": "prometheus",
         "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "currencyUSD",
           "color": {
             "fixedColor": "green",
             "mode": "fixed"
@@ -171,21 +163,29 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "currencyUSD"
         },
         "overrides": []
       },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 3,
       "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "orientation": "auto",
         "reduceOptions": {
-          "values": false,
           "calcs": [
             "lastNotNull"
-          ]
+          ],
+          "values": false
         },
-        "orientation": "auto",
-        "textMode": "value_and_name",
-        "colorMode": "background",
-        "graphMode": "area"
+        "textMode": "value_and_name"
       },
       "targets": [
         {
@@ -195,31 +195,24 @@
           },
           "editorMode": "code",
           "expr": "pizza_revenue_cents_total / 100",
+          "instant": false,
           "legendFormat": "Revenue",
           "range": true,
           "refId": "A"
         }
-      ]
+      ],
+      "title": "Total Revenue",
+      "type": "stat"
     },
     {
-      "id": 4,
-      "title": "Host System Health (CPU & RAM)",
-      "type": "bargauge",
-      "gridPos": {
-        "h": 5,
-        "w": 6,
-        "x": 12,
-        "y": 0
-      },
       "datasource": {
         "type": "prometheus",
         "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percent",
-          "min": 0,
           "max": 100,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -236,20 +229,28 @@
                 "value": 85
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
       "options": {
         "displayMode": "gradient",
         "orientation": "horizontal",
-        "showUnfilled": true,
         "reduceOptions": {
-          "values": false,
           "calcs": [
             "lastNotNull"
-          ]
-        }
+          ],
+          "values": false
+        },
+        "showUnfilled": true
       },
       "targets": [
         {
@@ -259,6 +260,7 @@
           },
           "editorMode": "code",
           "expr": "cpu_usage_percent",
+          "instant": false,
           "legendFormat": "CPU Load",
           "range": true,
           "refId": "A"
@@ -270,32 +272,26 @@
           },
           "editorMode": "code",
           "expr": "memory_usage_percent",
+          "instant": false,
           "legendFormat": "RAM Used",
           "range": true,
           "refId": "B"
         }
-      ]
+      ],
+      "title": "Host System Health (CPU & RAM)",
+      "type": "bargauge"
     },
     {
-      "id": 5,
-      "title": "Auth Success vs. Failed Attempts",
-      "type": "piechart",
-      "gridPos": {
-        "h": 5,
-        "w": 6,
-        "x": 18,
-        "y": 0
-      },
       "datasource": {
         "type": "prometheus",
         "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short",
           "color": {
             "mode": "palette-classic"
-          }
+          },
+          "unit": "short"
         },
         "overrides": [
           {
@@ -330,14 +326,14 @@
           }
         ]
       },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 5,
       "options": {
-        "pieType": "donut",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ]
-        },
         "legend": {
           "displayMode": "list",
           "placement": "right",
@@ -345,6 +341,13 @@
             "value",
             "percent"
           ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "values": false
         },
         "tooltip": {
           "mode": "single"
@@ -358,6 +361,7 @@
           },
           "editorMode": "code",
           "expr": "auth_attempts_total{status=\"success\"}",
+          "instant": false,
           "legendFormat": "Auth Succeeded",
           "range": true,
           "refId": "A"
@@ -369,40 +373,34 @@
           },
           "editorMode": "code",
           "expr": "auth_attempts_total{status=\"failed\"}",
+          "instant": false,
           "legendFormat": "Auth Failed / Rejected",
           "range": true,
           "refId": "B"
         }
-      ]
+      ],
+      "title": "Auth Success vs. Failed Attempts",
+      "type": "piechart"
     },
     {
-      "id": 6,
-      "title": "Traffic Volume: HTTP Requests by Method & Total",
-      "type": "timeseries",
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 5
-      },
       "datasource": {
         "type": "prometheus",
         "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "drawStyle": "line",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "fillOpacity": 25,
-            "gradientMode": "opacity",
-            "showPoints": "never"
-          },
-          "unit": "reqps",
           "color": {
             "mode": "palette-classic"
-          }
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 25,
+            "gradientMode": "opacity",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "showPoints": "never"
+          },
+          "unit": "reqps"
         },
         "overrides": [
           {
@@ -486,14 +484,21 @@
           }
         ]
       },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 5
+      },
+      "id": 6,
       "options": {
         "legend": {
-          "displayMode": "table",
-          "placement": "bottom",
           "calcs": [
             "lastNotNull",
             "max"
-          ]
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
         },
         "tooltip": {
           "mode": "multi",
@@ -508,6 +513,7 @@
           },
           "editorMode": "code",
           "expr": "rate(request_total[1m]) or irate(request_total[1m]) or request_total",
+          "instant": false,
           "legendFormat": "Total (req/sec)",
           "range": true,
           "refId": "A"
@@ -519,37 +525,31 @@
           },
           "editorMode": "code",
           "expr": "rate(request_by_method_total[1m]) or irate(request_by_method_total[1m]) or request_by_method_total",
+          "instant": false,
           "legendFormat": "{{method}}",
           "range": true,
           "refId": "B"
         }
-      ]
+      ],
+      "title": "Traffic Volume: HTTP Requests by Method & Total",
+      "type": "timeseries"
     },
     {
-      "id": 7,
-      "title": "Pizza Factory Throughput & Error Rate",
-      "type": "timeseries",
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 5
-      },
       "datasource": {
         "type": "prometheus",
         "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "drawStyle": "bars",
-            "lineWidth": 1,
-            "fillOpacity": 60
-          },
-          "unit": "short",
           "color": {
             "mode": "palette-classic"
-          }
+          },
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 60,
+            "lineWidth": 1
+          },
+          "unit": "short"
         },
         "overrides": [
           {
@@ -615,14 +615,21 @@
           }
         ]
       },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 5
+      },
+      "id": 7,
       "options": {
         "legend": {
-          "displayMode": "table",
-          "placement": "bottom",
           "calcs": [
             "lastNotNull",
             "max"
-          ]
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
         },
         "tooltip": {
           "mode": "multi",
@@ -637,6 +644,7 @@
           },
           "editorMode": "code",
           "expr": "rate(pizzas_sold_total[1m]) or pizzas_sold_total",
+          "instant": false,
           "legendFormat": "Pizzas Successfully Made",
           "range": true,
           "refId": "A"
@@ -648,6 +656,7 @@
           },
           "editorMode": "code",
           "expr": "rate(pizza_failures_total[1m]) or pizza_failures_total",
+          "instant": false,
           "legendFormat": "Pizza Creation Failures",
           "range": true,
           "refId": "B"
@@ -659,41 +668,35 @@
           },
           "editorMode": "code",
           "expr": "(rate(pizza_revenue_cents_total[1m]) / 100) or (pizza_revenue_cents_total / 100)",
+          "instant": false,
           "legendFormat": "Revenue Rate ($)",
           "range": true,
           "refId": "C"
         }
-      ]
+      ],
+      "title": "Pizza Factory Throughput & Error Rate",
+      "type": "timeseries"
     },
     {
-      "id": 8,
-      "title": "Response Time Analysis: Service Endpoint vs. Pizza Creation Latency",
-      "type": "timeseries",
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 14
-      },
       "datasource": {
         "type": "prometheus",
         "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "drawStyle": "line",
-            "lineInterpolation": "smooth",
-            "lineWidth": 2,
-            "fillOpacity": 15,
-            "gradientMode": "opacity",
-            "showPoints": "auto",
-            "pointSize": 5
-          },
-          "unit": "ms",
           "color": {
             "mode": "palette-classic"
-          }
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto"
+          },
+          "unit": "ms"
         },
         "overrides": [
           {
@@ -728,15 +731,22 @@
           }
         ]
       },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 8,
       "options": {
         "legend": {
-          "displayMode": "table",
-          "placement": "bottom",
           "calcs": [
             "lastNotNull",
             "mean",
             "max"
-          ]
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
         },
         "tooltip": {
           "mode": "multi",
@@ -751,6 +761,7 @@
           },
           "editorMode": "code",
           "expr": "rate(service_latency_ms_milliseconds_total[1m]) or service_latency_ms_milliseconds_total",
+          "instant": false,
           "legendFormat": "JWT Pizza Endpoint Latency (ms)",
           "range": true,
           "refId": "A"
@@ -762,11 +773,14 @@
           },
           "editorMode": "code",
           "expr": "rate(pizza_creation_latency_ms_milliseconds_total[1m]) or pizza_creation_latency_ms_milliseconds_total",
+          "instant": false,
           "legendFormat": "Pizza Factory Creation Latency (ms)",
           "range": true,
           "refId": "B"
         }
-      ]
+      ],
+      "title": "Response Time Analysis: Service Endpoint vs. Pizza Creation Latency",
+      "type": "timeseries"
     }
   ],
   "preload": false,
@@ -793,5 +807,5 @@
   "timezone": "browser",
   "title": "Pizza Dashboard",
   "uid": "sm82j88",
-  "version": 11
+  "version": 14
 }
