@@ -6,3 +6,4 @@ src/config.js
 coverage
 dist
 TESTS.md
+grafana/deliverable8dashboard.json
