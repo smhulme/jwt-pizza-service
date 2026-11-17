@@ -4,6 +4,7 @@ const { Role, DB } = require('../database/database.js');
 const { authRouter } = require('./authRouter.js');
 const { asyncHandler, StatusCodeError } = require('../endpointHelper.js');
 const metrics = require('../metrics.js');
+const logger = require('../logger.js');
 
 const orderRouter = express.Router();
 
@@ -84,14 +85,16 @@ orderRouter.post(
     const totalPrice = (orderReq.items || []).reduce((sum, item) => sum + (Number(item.price) || 0), 0);
 
     const factoryStart = Date.now();
+    const factoryReqBody = { diner: { id: req.user.id, name: req.user.name, email: req.user.email }, order };
     try {
       const r = await fetch(`${config.factory.url}/api/order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', authorization: `Bearer ${config.factory.apiKey}` },
-        body: JSON.stringify({ diner: { id: req.user.id, name: req.user.name, email: req.user.email }, order }),
+        body: JSON.stringify(factoryReqBody),
       });
       const factoryLatency = Date.now() - factoryStart;
       const j = await r.json();
+      logger.factoryLogger(req.user, factoryReqBody, j, r.status);
       if (r.ok) {
         metrics.recordPizzaPurchase(true, pizzaCount, totalPrice, factoryLatency);
         res.send({ order, followLinkToEndChaos: j.reportUrl, jwt: j.jwt });
@@ -101,6 +104,7 @@ orderRouter.post(
       }
     } catch (err) {
       const factoryLatency = Date.now() - factoryStart;
+      logger.factoryLogger(req.user, factoryReqBody, { error: err.message }, 500);
       metrics.recordPizzaPurchase(false, pizzaCount, 0, factoryLatency);
       throw err;
     }
